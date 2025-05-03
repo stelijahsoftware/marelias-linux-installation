@@ -1,0 +1,54 @@
+// 1. Make sudo require password of root, not current user's password
+sudo vim /etc/sudoers
+Defaults targetpw # (uncomment this line to ask for password of target user)
+# now change root password by:
+sudo passwd root # HailMary
+# source: https://wiki.archlinux.org/index.php/Sudo#Root_password
+
+// 2. extend sudo password time (30 minutes):
+https://bbs.archlinux.org/viewtopic.php?id=198042
+https://wiki.archlinux.org/title/Sudo#Reduce_the_number_of_times_you_have_to_type_a_password
+sudo vim /etc/sudoers
+Defaults timestamp_timeout=30
+
+// 3. disable quiet boot (to show boot messages on startup):
+sudo vim /etc/default/grub
+# GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3" # remove quiet
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+https://wiki.archlinux.org/index.php/Kernel_parameters#GRUB
+
+// 4. don't forget to put a password on GRUB to prevent resetting sudo password.
+
+// 5. enable AUR's 'makepkg -si' ability to download packages: (also on ubuntu apt-get)
+https://wiki.archlinux.org/title/Makepkg_#Makepkg_fails_to_download_dependencies_when_behind_proxy
+sudo vim /etc/sudoers # add this line:
+Defaults env_keep += "http_proxy https_proxy"
+
+// 6. Other:
+https://wiki.archlinux.org/index.php/Display_Power_Management_Signaling
+xset dpms force suspend # turn off monitor
+
+// 7. set arabic/english keyboards so that arabic shortcuts work on arch: (language)
+localectl --no-convert set-x11-keymap gb,ara pc105 ,digits grp:caps_toggle # caps_toggle or win_space_toggle
+sudo vim /etc/X11/xorg.conf.d/00-keyboard.conf
+
+# sources:
+https://wiki.archlinux.org/title/Xorg/Keyboard_configuration#Using_X_configuration_files
+https://bbs.archlinux.org/viewtopic.php?pid=2005730#p2005730 # my issue
+
+// 8. reduce grub bootloader countdown to 1:
+# Either for [systemd-boot] bootloader:
+sudo vim /boot/loader/loader.conf
+# Or for GRUB:
+sudo vim /boot/grub/grub.cfg # look for timeout (2 places). see:
+https://bbs.archlinux.org/viewtopic.php?id=251950
+
+// 9. Dolphin icons:
+https://github.com/KDE/breeze-icons
+https://github.com/shimmerproject/elementary-xfce
+Combine the two & put them in ~/.icons/breeze
+
+// 10. Setup HP NeverStop MFP 1202:
+sudo systemctl start cups # Must run this first, otherwise will show error "No PPD found"
+sudo hp-setup -i
+system-config-printer

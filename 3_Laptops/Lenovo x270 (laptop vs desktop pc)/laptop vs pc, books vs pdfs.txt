@@ -1,0 +1,14 @@
+# Laptop disadvantages:
+1. wrist aches, neck aches (only when it is not standing up). can be solved by connecting to a monitor.
+2. limited battery life time (a few years). Unnecessary.
+3. connecting an HDD with SATA for quick backups, especially 3.5 inch HDD. Unnecessary.
+
+Dependence on electricity and pc (solve using kindle reader, or a reader that can add annotations to pdfs, not just save them to a txt file).
+
+# Laptop advantages (Lenovo ThinkPad X270):
+1. portability
+2. no accidental electricity shutdown worries
+3. instant sleep/wakeup
+
+pdf books advantage: Searching & size/weight/space (more freedom)
+

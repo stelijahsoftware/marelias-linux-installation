@@ -1,0 +1,215 @@
+https://wiki.archlinux.org/title/List_of_applications/Utilities#File_searching
+
+// When reinstalling Arch:
+# 1. Set Samsung screen: blue light to 0%; red 60%; green 55%
+
+# 2. make: highlighter
+
+# 3. enable scrollbars: add this line to ~/.config/gtk-3.0/settings.ini
+gtk-overlay-scrolling=0
+gtk-primary-button-warps-slider=1
+
+# 4. set notifications settings:
+mkdir ~/.config/dunst && cp /usr/share/dunst/dunstrc ~/.config/dunst
+
+# 5. Uninstall:
+pip uninstall pip # remove it from all existing conda environments
+sudo pacman -R snapd # don't be enslaved/hooked/addicted to updates or 3rd party companies.
+
+# 6. to install a desktop (allow desktop icons) on awesome:
+sudo pacman -S pcmanfm
+# or:
+nemo-desktop # (try it)
+
+// Manually install:
+# AUR (NOTE: make sure there are no spaces in building path).
+
+nautilus-typeahead # nautilus + https://aur.archlinux.org/pkgbase/nautilus-typeahead/#comment-831959
+https://aur.archlinux.org/nautilus-typeahead.git
+makepkg -si
+# if it fails:
+dos2unix nautilus-restore-typeahead.patch
+# clean PKGBUILD
+# clean .SRC..
+# if errors:
+# edit PKGBUILD, go to prepare(), add quotation marks to the two lines:
+cd "$_pkgbase"
+git config submodule.libgd.url "$srcdir/libgd"
+# if you get error: Hunk #1 FAILED at 192 (different line endings).
+# if it does not work do:
+git config --global core.autocrlf false
+
+alarm-clock-applet
+https://aur.archlinux.org/alarm-clock-applet.git
+# requires (install these first):
+https://aur.archlinux.org/libunique.git
+https://aur.archlinux.org/gconf.git
+
+elementary-xfce-icons # or manually put in ~/.icons: https://github.com/elementary/icons https://github.com/elementary/wallpapers https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
+https://aur.archlinux.org/elementary-xfce-icons.git
+
+xfce-theme-greybird # or manually put in ~/.themes:
+https://aur.archlinux.org/xfce-theme-greybird.git
+
+android studio
+Download from https://developer.android.com/studio and extract to `~/android-studio/`
+
+czkawka (a reimplementation of fslint https://www.pixelbeat.org/fslint/)
+https://github.com/qarmin/czkawka/tags (download AppImage file)
+# or:
+https://aur.archlinux.org/czkawka.git
+# other ones:
+https://aur.archlinux.org/packages/dupeguru/
+https://aur.archlinux.org/packages/jpegdupes/
+https://aur.archlinux.org/packages/fclones-bin/
+
+teamviewer
+https://aur.archlinux.org/teamviewer.git
+
+clipit (simplest clipboard manager, does not use zeitgest) install it from https://github.com/writing-tools/marelias-clipboard # others include: diodon clipboard manager (copy and paste). Clipman is the XFCE clipboard manager. diodon is still maintained (10+ years) but more complicated, has history, uses zeitgest to store clipboard items on disk (possible to store in memory instead, see https://github.com/diodon-dev/diodon?tab=readme-ov-file#store-clipoard-items-in-memory ), you need to run `rm -rf /home/username/.local/share/zeitgeist/` everytime you restart/shutdown pc. For more, see:
+https://wiki.archlinux.org/index.php/clipboard#Managers 
+
+subtitlecomposer # remove 'pocketsphinx' from PKGBUILD
+https://aur.archlinux.org/subtitlecomposer.git
+https://invent.kde.org/multimedia/subtitlecomposer
+# or:
+sudo pacman -S subtitleeditor
+sudo pacman -S gnome-subtitles
+
+zoom
+https://aur.archlinux.org/zoom.git
+
+spotify
+https://aur.archlinux.org/spotify.git
+# run this if you face PGP signature verification error:
+# curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | gpg --import -
+
+imagination # slideshow creator; also: https://trac.ffmpeg.org/wiki/Slideshow
+https://aur.archlinux.org/imagination.git
+
+ungoogled-chromium # or download the executable like firefox
+git clone https://aur.archlinux.org/ungoogled-chromium-bin.git && cd ungoogled-chromium-bin && makepkg -si
+# or:
+https://github.com/ungoogled-software/ungoogled-chromium-archlinux/archive/refs/tags/108.0.5359.124-1.zip
+# AppImage (ubuntu and any linux):
+https://ungoogled-software.github.io/ungoogled-chromium-binaries/releases/appimage/64bit/
+
+firefox-esr:
+https://www.mozilla.org/en-US/firefox/all/#product-desktop-esr
+# unzip then sudo cp -r ./firefox ~/.local/bin/
+
+gradio:
+https://github.com/haecker-felix/gradio/releases/
+# successor:
+https://gitlab.gnome.org/World/Shortwave # Or use VLC
+
+e2guardian:
+https://github.com/e2guardian/e2guardian/releases
+https://groups.google.com/forum/#!topic/e2guardian/M8s4i9ggPbI
+
+awesome:
+https://github.com/awesomewm/awesome
+
+thunderbird
+# use 60.9.1
+
+battop (you can download the executable and run it immediately)
+# Display battery cycles
+https://github.com/svartalf/rust-battop/releases
+
+fsearch
+git clone https://aur.archlinux.org/fsearch.git
+makepkg -si
+
+kdenlive
+# if the official package displays erroneous arabic subtitles, download the appimage, make it executable and run it: (Arial causes the glitch, just change font)
+https://download.kde.org/stable/kdenlive/22.08/linux/kdenlive-22.08.3-x86_x64.AppImage
+https://download.kde.org/stable/kdenlive/
+
+calibre
+# original archlinux package is corrupt. Instead install it by running:
+sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+# source: https://calibre-ebook.com/download_linux
+
+simplescreenrecorder (can be installed from pacman -S but broken)
+https://aur.archlinux.org/simplescreenrecorder.git
+
+// Programs:
+sudo pacman -S base-devel cmake polkit-gnome gnome-keyring audacity catfish dconf-editor dunst easytag eog yt-dlp rofi evince ffmpegthumbnailer gedit gnote gparted gimp git gitk git-gui gnome-font-viewer gnome-calculator xclip gnome-disk-utility gnome-system-monitor gnome-calendar inkscape keepassxc kdenlive breeze-icons shutter kid3 libreoffice mtpfs gvfs-mtp okular oath-toolkit pdfarranger rsync slock colordiff feh ntp htop vlc texstudio vim xdotool picom digikam signal-desktop jpegoptim kate shotcut imwheel qutebrowser veracrypt audacious android-tools nemo orage dolphin kde-cli-tools ffmpegthumbs kdegraphics-thumbnailers ark kfind cups cups-pdf hplip system-config-printer krename net-tools dnsutils kimageformats xournalpp strace simple-scan redshift sqlitebrowser p7zip gnome-terminal perl-image-exiftool gimp-plugin-gmic pavucontrol
+
+# Chinese fonts:
+sudo pacman -S ttf-roboto \
+               noto-fonts \
+               noto-fonts-cjk \
+               adobe-source-han-sans-cn-fonts \
+               adobe-source-han-serif-cn-fonts \
+               ttf-dejavu \
+               noto-fonts-emoji # emojis
+
+// Description of some programs above:
+perl-image-exiftool # to use it: /usr/bin/vendor_perl/exiftool
+strace # find the files used by a program; find where settings are stored see: https://bbs.archlinux.org/viewtopic.php?pid=2127685#p2127685 # strace gedit
+gparted # disk formatting/partitioning
+kimageformats # gimp previews
+dnsutils # dig & nslookup
+net-tools # contains netstat
+cups cups-pdf hplip system-config-printer system-config-printer-applet # printing protocols. https:///hp/device/info_deviceStatus.html?tab=Home&menu=DevStatus gtk3-print-backends
+krename # batch rename files (better than nautilus)
+breeze-icons # required by kdenlive
+ark # extracting files in Dolphin
+yt-dlp # replaces youtube-dl
+calibre # converting epub to pdf
+dunst # notifications daemon (volume control) (notify-send message)
+evince # acts as pdf thumbnailer
+feh # set wallpaper in awesome
+picom # window shadow compositor
+slock # better than xscreensaver which can be circumvented
+konsole # default for Dolphin (but can be changed). gnome-terminal
+signal-desktop # launch it from terminal to connect it to proxy
+digikam # more advanced than [shotwell]
+vlc # use it for radio too (bbcr3 + classicfm). Also: [rhythmbox], [cantata], https://www.github.com/exaile/exaile/
+mtpfs gvfs-mtp # both required for browsing android device
+sqlitebrowser # sql-lite database editor (.db files)
+p7zip # unzip large zipped files which show 'corrupted'
+
+gnote # might be a fork from tomboy: https://github.com/tomboy-notes/tomboy
+pdfarranger # pdfshuffler on ubuntu
+kid3 # audio tagger. similar to [easytag] & [picard]
+xdotool # pasting date
+xclip # pasting date (copy into clipboard)
+https://gitlab.freedesktop.org/poppler/poppler/-/issues/362
+# better than xfce4-screenshooter. gnome-screenshot -a area -i interactive
+# dconf > /org/gnome/gnome-screenshot/auto-save-directory > ~/Downloads
+imwheel # mouse scrolling speed increase. Don't use [libinput-multiplier] as it interferes with Xorg
+
+// Other:
+linux53-virtualbox-host-modules # 5x has to match your kernel; see:
+# https://forum.manjaro.org/t/howto-virtualbox-installation-usb-shared-folders/55905
+optipng # optimise/compress pngs
+hdparm # send an HDD into sleeping mode
+gnome-do # change to [kupfer] which is better when updated beyond v319. Now using [rofi], the best.
+https://github.com/kupferlauncher/kupfer/releases
+https://wiki.archlinux.org/title/Rofi#Configuration
+darktable # photo management (similar to adobe lightroom). (I'm not using it)
+cbatticon # Lenovo battery icon (not needed, percentage can be displayed in awesome)
+ubuntu-restricted-extras # ubuntu, installs Microsoft Web fonts
+lm-sensors # show cpu temperature; command: 'sensors'
+xautomation # installs xte; unsupported on wayland. remap mouse buttons, see [.xbindkeysrc]
+xinput # to listen to mouse/powerbutton/... clicks, see [.xbindkeysrc]
+xournalpp # pdf annotation
+dnsutils # host youtube.com
+whois # whois youtube.com
+lxappearance # (not needed). install for changing themes/icon themes on Awesomewm. # or see: 
+https://wiki.archlinux.org/index.php/Cursor_themes#XDG_specification
+# lxsession # required for authentication for pamac under awesomewm [no longer required]
+xattr # 0.8.0 file attributes: https://pypi.python.org/pypi/xattr
+ImportExportTools # exporting emails in Thunderbird
+https://freeshell.de/~kaosmos/mboximport-en.html
+rEFInd # Boot Manager (install mac OSX on PC) http://www.rodsbooks.com/refind/
+rhythmbox-plugin-playlists-import-export https://github.com/petko10/rhythmbox-plugin-playlists-import-export
+rhythmbox-plugins-open-containing-folder https://github.com/donaghhorgan/rhythmbox-plugins-open-containing-folder
+notes # similar to macos https://github.com/nuttyartist/notes
+motion # camera surveillance motion detector https://github.com/Motion-Project/motion https://www.linux.com/learn/how-operate-linux-spycams-motion + see zoneminder
+zotero # pdf annotation
+blugon https://aur.archlinux.org/blugon.git # blue light removal (better one is: redshift, which is base of f.lux)
+elisa # music player

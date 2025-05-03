@@ -1,0 +1,37 @@
+# boot from flash
+
+fdisk -l
+mount /dev/sda2 /mnt
+arch-chroot /mnt
+
+vim /etc/default/grub
+
+GRUB_DEFAULT=5
+GRUB_TIMEOUT=5
+GRUB_FORCE_HIDDEN_MENU="false"
+
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# change password if using complex password; you will need to enter it for sudo later
+
+exit
+reboot
+
+# now press shift on startup; choose arch with advanced settings
+
+# Force login using shell:
+append after line starting with 'linux'
+systemd.unit=multi-user.target 
+
+then press F10
+
+# login, then:
+
+sudo pacman -Syu
+sudo pacman -S xf86-input-libinput
+sudo pacman -S libinput # if asked to replace libinput-multiplier choose yes
+sudo pacman -S libwacom
+
+# see:
+https://bbs.archlinux.org/viewtopic.php?pid=2019074#p2019074
+

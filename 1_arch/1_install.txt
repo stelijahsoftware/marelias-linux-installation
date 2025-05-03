@@ -1,0 +1,196 @@
+// NOTE: CHANGE ALL elyahw to your user name.
+
+// Lenovo note:
+# to run Arch, you have to disable 'secure boot' from BIOS. You can then put the
+#  ssd directly from PC and it will work.
+
+// for encrypting the root partition, refer to:
+https://www.youtube.com/watch?v=SFzN6e7USGk
+
+// 0. Installation instructions & iso download:
+https://wiki.archlinux.org/index.php/Installation_guide
+
+# download iso:
+https://www.archlinux.org/download/
+# verify signature:
+pacman-key -v archlinux-version-x86_64.iso.sig
+# create bootable flash disk: (note: if using an external HDD or SSD, use all of it)
+sudo fdisk -l
+sudo dd bs=4M if=archlinux-2020.12.01-x86_64.iso of=/dev/sdb1 status=progress oflag=sync
+https://wiki.archlinux.org/title/USB_flash_installation_medium#Using_basic_command_line_utilities
+
+# other sources:
+https://youtu.be/Wqh9AQt3nho
+https://github.com/spookykidmm/zen_installer/blob/master/zif (2019)
+# partitioning
+https://wiki.archlinux.org/index.php/Partitioning#Master_Boot_Record
+# boot process
+https://wiki.archlinux.org/index.php/Arch_boot_process
+
+// 1. partition disks:
+fdisk -l # list available disks.
+# Note 1: if 'Disklabel type: gpt' is shown; then it means the partition table 
+#         is MBR(DOS). GPT is newer than MBR, so always use it if possible.
+# Note 2: Available partition tables: MBR(DOS)/GPT. (1) For MBR, you can use 
+#         cfdisk (you cannot use it for GPT because you won't be able to set
+#         a bootable partition). (2) For GPT, you have to use cgdisk.
+# Note 3: IMPORTANT: 20210722 it is possible to convert the drive to GPT even if
+#         it was an HDD. Just run [cgdisk] and it will ask you to convert to GPT
+
+lsblk --nodeps # list available disks
+
+# EITHER: run partition manager for MBR:
+cfdisk /dev/sdx
+# create 2 partitions: root[/] and /home; set / as bootable
+# create one for system (root /) and another for /home; make system bootable 
+#  (create it first so that it takes sdx1). if you create swap partition, 
+#  change its type to 83.
+
+# OR: for GPT (SSD):
+cgdisk /dev/sda
+# create 3 partitions (1)efi: 512MB, code:ef00; (512 * 2048 = 1048 576)
+#                     (2)root: 50GB, code:8300; (50*1000*2048=1024 00000) # texlive alone is some 9GB
+#                     (3)home: rest, code:8302
+
+// 2. optional: if you create swap partition above, make swap file & utilise it:
+mkswap /dev/sdax
+swapon /dev/sdax
+
+// 3. format all partitions:
+lsblk /dev/sda # list drive partitions
+
+mkfs.fat -F 32 /dev/sda1 # efi partition has to be formatted as fat (required for [grub-install])
+https://bbs.archlinux.org/viewtopic.php?pid=1882138#p1882138
+mkfs.ext4 /dev/sda2
+mkfs.ext4 /dev/sda3
+
+// 4. mount root drive / to /mnt:
+mount /dev/sda2 /mnt
+
+# mount efi partition (this is required for [grub-install] command below)
+mkdir -p /mnt/boot/efi
+mount /dev/sda1 /mnt/boot/efi
+
+// 4.1. Connect to wifi:
+https://wiki.archlinux.org/title/Iwd#iwctl
+iwctl
+device list
+station wlan0 scan
+station wlan0 get-networks
+station wlan0 connect Platitera # then enter password
+exit
+# Or using a single line:
+iwctl --passphrase passphrase station device connect SSID
+
+// 5. Install base system to root partition (internet required):
+pacstrap -K /mnt base base-devel linux linux-firmware man-db man-pages texinfo vim mkinitcpio networkmanager grub efibootmgr # pacstrap is pacman but only for installation
+
+// generate fstab file (contains info about partitions):
+genfstab -U /mnt >> /mnt/etc/fstab
+
+// take full access:
+arch-chroot /mnt
+
+# create root password:
+passwd
+
+# create new user:
+useradd -m -g users -G adm,lp,wheel,power,audio,video -s /bin/bash elyahw
+passwd elyahw # enter user password
+
+// To mount /home at startup (do this after installation of arch):
+https://wiki.archlinux.org/index.php/Fstab
+# <dump> is checked by the dump(8) utility. This field is usually set to 0, 
+#  which disables the check.
+# <fsck> sets the order for filesystem checks at boot time; see fsck(8). For the
+#  root device it should be 1. For other partitions it should be 2, or 0 to disable checking.
+blkid # show UUID of different partitions. or:
+df # or:
+lsblk --output NAME,FSTYPE,LABEL,SIZE,UUID,TYPE,FSAVAIL,FSUSE%,MOUNTPOINT
+
+# first: solve permissions for /home; see:
+https://bbs.archlinux.org/viewtopic.php?pid=1883145#p1883145 # asks for:
+# mount
+# stat ~ # this tells you the owner of /home/elyahw
+# id
+https://bbs.archlinux.org/viewtopic.php?id=238976
+http://www.linfo.org/chown.html
+mkdir -p /mnt/home
+mount /dev/sda3 /mnt/home
+chown -R elyahw:users /mnt/home
+
+# second: see:
+https://en.wikipedia.org/wiki/Fstab
+https://linux.die.net/man/8/mount
+blkid >> /etc/fstab # this is done only to copy the required UUID
+vim /etc/fstab
+UUID=xxxx-xxxx-xxxx-xxxx /home ext4 rw,auto,async,users,exec,dev,noatime 1 2 # 
+# see man mount; no quotation marks
+# third: reboot then do: (not necessary to reboot)
+# df
+
+// give use permissions:
+visudo
+elyahw ALL=(ALL) ALL # either add this line; or uncomment %wheel ALL=(ALL:ALL) ALL (keep the %)
+
+# set hostname for system:
+echo elyahw > /etc/hostname
+
+// Install bootloader (grub is the most popular):
+mkinitcpio -p linux # generate an init file that grup will use to load linux
+
+# Either (for MBR), don't use: 
+# grub-install /dev/sda # install grub to the harddrive (NOT the partition)
+
+# Or (if using GPT):
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --removable # note the partition is not required. see:
+https://wiki.archlinux.org/index.php/GRUB#Installation_2
+
+grub-mkconfig -o /boot/grub/grub.cfg # create the grup config file
+exit # exit chroot session
+
+// install packages for video, audio, drivers:
+pacstrap -K /mnt xorg-server xorg-twm xorg-apps xorg-drivers xterm alsa-utils pulseaudio pulseaudio-alsa intel-ucode nm-connection-editor xf86-input-libinput b43-fwcutter mesa sof-firmware # sof-firmware is to fix no sound on Thinkpad T14 https://bbs.archlinux.org/viewtopic.php?pid=2027680#p2027680
+
+# install networking and other utilities
+pacstrap -K /mnt network-manager-applet xdg-user-dirs gvfs ttf-dejavu inetutils usbutils xfsprogs sysfsutils
+
+# install a desktop manager & desktop environment
+pacstrap -K /mnt lxdm awesome # or install lightdm
+
+# Note that it is possible to install apps using pacman after doing 'arch-chroot /mnt' again now..
+
+# Finish:
+umount -R /mnt # unmount drive recursively
+poweroff # reboot
+
+// After reboot:
+
+// generate lauguages:
+sudo vim /etc/locale.gen # one line: find your language and uncomment this line  [en_GB.UTF-8 UTF-8] (only this line; do not uncomment the ISO line)
+sudo locale-gen # generate locales
+sudo localectl set-locale LANG="en_GB.UTF-8" # solves the gnome-terminal not starting up problem
+https://wiki.archlinux.org/index.php/Installation_guide#Localization
+sudo locale-gen
+
+# set time zone:
+sudo ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
+timedatectl # also: date
+timedatectl set-ntp true # enable internet time synchronisation (now you can get rid of the
+#                                    CMOS battery i.e. on motherboard)
+sudo hwclock --systohc # set hardware clock
+timedatectl set-timezone Europe/London # set timesaving. try: timedatectl list-timezones
+# timedatectl set-time "2020-04-14 09:07:00" # set time and date manually
+# do not use UTC time (no timesaving/timezone)
+# For automatic time synchronisation, you can either use ntp or
+#  systemd-timesyncd (default). For NTP (not needed):
+#  sudo pacman -S ntp
+#  sudo ntpd -u ntp:ntp
+#  sudo systemctl enable ntpdate.service
+#  ntpq -p
+#  sudo systemctl start ntpdate.service
+
+// Start services:
+systemctl enable NetworkManager
+systemctl enable lxdm.service # login manager (display manager)
+

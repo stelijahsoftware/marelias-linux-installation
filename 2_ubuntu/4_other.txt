@@ -1,0 +1,66 @@
+// Gnome shell:
+# 1. Remove extra workspaces:
+Ubuntu settings > Multitasking > workspaces
+
+# 2. Enable night light:
+Settings > Screen display > Night Light tab
+
+# 3. Install dash to panel:
+sudo apt install gnome-shell-extension-manager chrome-gnome-shell
+https://extensions.gnome.org/extension/1160/dash-to-panel/
+
+// right click/right-click shortcut:
+Shift + F10
+
+// run sudo at startup: Change brightness of screen: 
+sudo vim /etc/rc.local
+sudo chmod +x /etc/rc.local
+# put the following inside:
+#!/bin/sh -e
+echo 5 | sudo tee /sys/class/backlight/intel_backlight/brightness
+exit 0
+https://askubuntu.com/questions/956237/run-terminal-sudo-command-at-startup
+# or: don't do the above; you can change brightness using:
+xrandr --output eDP-1 --brightness 0.8
+https://askubuntu.com/questions/1230937/ubuntu-20-04-brightness-adjust-not-working
+
+// .profile:
+xrandr --output HDMI-1-0 --output eDP-1 --same-as HDMI-1-0 --mode 1920x1080 # screen mirroring
+# xrandr --auto
+diodon & # enable copy & paste in awesomewm
+nm-applet &
+redshift -m randr -O 4500
+
+// Default termial background colour on ubuntu is:
+# 300A24
+
+// show ubuntu version:
+lsb_release -a
+
+// change pc name:
+sudo vim /etc/hostname
+
+// remove password of a user:
+sudo passwd -d userName
+sudo passwd -d myuser
+
+// change boot order:
+sudo efibootmgr
+sudo efibootmgr -o 82,0
+
+// Disk management:
+#list disks/partitions:
+sudo lsblk
+#list disks:
+sudo fdisk -l
+#install hfs utilities (mac):
+sudo apt-get install hfsprogs
+
+// gui:
+# switch between windows of same application:
+alt + grave (similar to ')
+
+// hypernation:
+sudo pm-hibernate
+http://askubuntu.com/questions/361734/hibernation-is-still-missing-from-menu-in-13-10-after-enabling-via-polkit-how-t/362499#362499
+https://help.ubuntu.com/stable/ubuntu-help/power-hibernate.html

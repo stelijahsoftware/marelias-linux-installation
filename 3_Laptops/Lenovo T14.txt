@@ -1,0 +1,16 @@
+// Enter boot menu:
+F12
+
+// Enter BIOS:
+Press 'Enter', then 'F1'
+
+// Update system:
+https://pcsupport.lenovo.com/gb/en/products/laptops-and-netbooks/thinkpad-t-series-laptops/thinkpad-t14-type-20s0-20s1/20s1/20s1saxk40/pf31k36s/downloads/ds544549-bios-update-utility-bootable-cd-for-windows-10-64-bit-linux-thinkpad-p14s-gen-1-p15s-gen-1-t14-gen-1-t15-gen-1?category=BIOS%2FUEFI
+Download iso
+Burn it to usb:
+sudo dd bs=4M if=n2xur20w.iso of=/dev/sda1 status=progress oflag=sync
+Boot from it
+
+// Computer won't wake up from sleep no matter what is pressed.
+Fixed: update BIOS as above.
+

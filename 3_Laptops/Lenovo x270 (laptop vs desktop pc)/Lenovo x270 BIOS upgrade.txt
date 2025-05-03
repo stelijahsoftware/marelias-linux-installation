@@ -1,0 +1,14 @@
+1. Download BIOS iso from: (current version is 1.40)
+https://pcsupport.lenovo.com/gb/en/products/laptops-and-netbooks/thinkpad-x-series-laptops/thinkpad-x270/downloads/driver-list/component?name=BIOS%2FUEFI
+
+2. install [geteltorito] AUR package from: (this step is required for using usb instead of CD drive)
+https://aur.archlinux.org/packages/geteltorito/
+
+3. run:
+geteltorito.pl -o bios.img r0iuj33wd.iso
+
+4. then:
+sudo dd bs=4M if=bios.img of=/dev/sdb status=progress oflag=sync
+
+5. now you can boot from flash drive.
+

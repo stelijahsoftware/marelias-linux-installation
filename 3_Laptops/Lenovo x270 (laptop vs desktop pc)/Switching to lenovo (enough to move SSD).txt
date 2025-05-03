@@ -1,0 +1,5 @@
+1. in [.profile]: change blugon to 400: [blugon -S 4000 -o] (only when using laptop's monitor)
+2. in [.profile]: uncomment [cbatticon] line
+3. in awesome [rc.lua] enable the 3 lines starting with line: [battery0Level,wibox.widget.textbox('% '),]
+4. The camera on Lenovo is not tested yet. The brightness adjustment does not work either (it is always set to 100%). (not needed)
+

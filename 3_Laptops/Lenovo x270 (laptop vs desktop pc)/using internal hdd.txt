@@ -1,0 +1,2 @@
+go to "Drive Settings" in [gnome-disks]; and set standby to 1 minute
+

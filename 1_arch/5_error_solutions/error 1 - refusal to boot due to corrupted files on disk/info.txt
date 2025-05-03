@@ -1,0 +1,14 @@
+// error: (see snapshot)
+/dev/sda2 contains a file system with errors...
+run 'fsk /dev/sda2' manually
+
+// solution:
+fsck.ext4 /dev/sda2
+
+// cause:
+laptop was sleeping
+I removed SSD and used it on PC.
+turned off pc, returned ssd, computer still in sleep mode.
+This corrupted files in chromium configs (bookmarks & other files in ~/.config/chromium)
+these files were causing the issues.
+

@@ -1,0 +1,15 @@
+// On arch:
+localectl --no-convert set-x11-keymap gb,ara pc105 ,digits grp:caps_toggle
+# The above means: use [gb,ara] languages; using [pc105] hardware keyboard, and apply [digits] on the second language (notice the ',' denoting nothing for the first language); which instructs the arabic language to use eastern numerals e.g. ١٢٣٤٥
+https://bbs.archlinux.org/viewtopic.php?id=271578
+https://bbs.archlinux.org/viewtopic.php?pid=2136449#p2136449
+
+# To check the settings of the current keyboard:
+cat /etc/X11/xorg.conf.d/00-keyboard.conf
+setxkbmap -print -query # takes the values in the file above after every restart..
+
+# display all possible keyboard options
+man xkeyboard-config
+
+# The arabic keyboard I want is called:
+ara(digits)

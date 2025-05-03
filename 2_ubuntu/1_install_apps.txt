@@ -1,0 +1,82 @@
+// apt-get:
+sudo apt update        # Fetches the list of available updates
+sudo apt upgrade       # Installs some updates; does not remove packages
+sudo apt full-upgrade  # Installs updates; may also remove some packages, if needed
+sudo apt autoremove    # Removes any old packages that are no longer needed
+man apt
+sudo apt --purge remove exampleapp # remove with config files
+sudo apt purge --auto-remove exampleapp # remove package with its dependencies
+sudo apt clean # remove downloaded archive files to save space
+sudo apt-get build-dep rhythmbox # install all build dependencies of a program
+# remove sources:
+sudo rm /etc/apt/sources.list.d/cuda*
+
+// Clean caches:
+sudo rm -rf /var/lib/apt/lists/*
+sudo apt-get clean
+sudo apt-get autoclean
+
+// Install apps:
+sudo apt install zip oathtool redshift pdfarranger vlc build-essential cmake unzip pkg-config ca-certificates keepassxc iptables-persistent feh vim catfish rofi inkscape okular autotools-dev automake make git git-lfs gitk git-gui audacious shutter simplescreenrecorder nemo dolphin kde-cli-tools gnome-terminal ark texstudio xournalpp xournal kde-plasma-desktop xclip yt-dlp curl kate calibre htop adb colordiff xserver-xorg-input-synaptics xbacklight easytag kid3 gparted qutebrowser gedit pulseaudio pavucontrol gnote elementary-icon-theme
+
+sudo apt install greybird-gtk-theme elementary-xfce-icon-theme
+
+sudo apt-get install texlive-full texlive-lang-all
+
+sudo apt install libc++-dev libc++abi-dev # required for building using clang
+
+# picom is outdated in apt; download zip and install instead from: (v. 12.5 working on 24.04)
+https://github.com/yshui/picom
+sudo apt install libconfig-dev libdbus-1-dev libegl-dev libev-dev libgl-dev libepoxy-dev libpcre2-dev libpixman-1-dev libx11-xcb-dev libxcb1-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-glx0-dev libxcb-image0-dev libxcb-present-dev libxcb-randr0-dev libxcb-render0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-util-dev libxcb-xfixes0-dev meson ninja-build uthash-dev
+meson setup --buildtype=release build
+ninja -C build
+ninja -C build install
+
+# duplicate finder:
+https://github.com/qarmin/czkawka/releases/
+
+# clipboard manager install from:
+https://github.com/Writing-Tools/ClipIt-clipboard
+
+# chromium: (.AppImage put in ~/.local/bin/)
+https://ungoogled-software.github.io/ungoogled-chromium-binaries/releases/appimage/64bit/
+
+# firefox ESR (put in ~/.local/bin/)
+https://www.mozilla.org/en-GB/firefox/all/#product-desktop-esr
+
+# gimp:
+https://download.gimp.org/gimp/v3.0/linux/
+
+# yt-dlp (youtube-dl replacement)
+https://github.com/yt-dlp/yt-dlp/releases (choose yt-dlp_linux)
+sudo cp yt-dlp_linux /usr/bin/yt-dlp
+# or (better):
+sudo ln -s /home/username/.local/bin/yt-dlp_linux /usr/bin/yt-dlp
+
+# veracrypt
+https://www.veracrypt.fr/en/Downloads.html
+https://github.com/veracrypt/VeraCrypt/tags
+
+# Then manually install awesome + e2guardian + dnsmasq
+sudo apt install dnsmasq # awesome
+
+# install microsoft fonts:
+sudo apt-get install ubuntu-restricted-extras ttf-mscorefonts-installer
+
+# Remove snapd: [/snap; /var/snap]
+sudo apt remove --purge snapd
+
+// package management/installing:
+apt-cache search 'xyxyxyx' # search apt-get:
+dpkg --list # list installed packages:
+dpkg -i python3-pypeg2_*_all.deb
+dpkg -i qutebrowser_*_all.deb
+
+// Remove a PPA from the source list:
+ls /etc/apt/sources.list.d
+vim /etc/apt/sources.list
+ls /usr/share/keyrings/
+/var
+sudo apt-get clean
+sudo apt-get autoclean
+sudo apt-get autoremove

@@ -1,0 +1,22 @@
+// error description:
+mouse and keyboard freeze immediately before LXDM (window manager). Can't use keyboard, can't use tty (alt+f2). Except the sleep button on the keyboard. Mouse is unresponsive as well.
+
+// solution:
+look at this file:
+
+/var/log/Xorg.0.log
+
+Notice the two repeated lines:
+
+Loading /usr/lib/xorg/modules/input/libinput_drv.so
+[    20.215] (EE) Failed to load /usr/lib/xorg/modules/input/libinput_drv.so: /usr/lib/libinput.so.10: version `LIBINPUT_1.19' not found (required by /usr/lib/xorg/modules/input/libinput_drv.so)
+
+I replaced this file [/usr/lib/xorg/modules/input/libinput_drv.so] with identical one from Ali's archlinux.
+
+I also replaced other files in [/usr/lib] with name 'libinput'
+
+// Possible cause:
+I remember interrupting [pacman -Syu] while it was downloading packages. May be one of them was corrupted. Next time delete all cache when cancelling an update. UPDATE: No because it happened a 2nd time on home computer; must be a corrupted package which was downloaded.
+
+
+
