@@ -1,6 +1,6 @@
 // On arch:
-localectl --no-convert set-x11-keymap gb,ara pc105 ,digits grp:caps_toggle
-# The above means: use [gb,ara] languages; using [pc105] hardware keyboard, and apply [digits] on the second language (notice the ',' denoting nothing for the first language); which instructs the arabic language to use eastern numerals e.g. ١٢٣٤٥
+localectl --no-convert set-x11-keymap us,ara pc105 ,digits grp:caps_toggle
+# The above means: use [us,ara] languages; using [pc105] hardware keyboard, and apply [digits] on the second language (notice the ',' denoting nothing for the first language); which instructs the arabic language to use eastern numerals e.g. ١٢٣٤٥
 https://bbs.archlinux.org/viewtopic.php?id=271578
 https://bbs.archlinux.org/viewtopic.php?pid=2136449#p2136449
 
