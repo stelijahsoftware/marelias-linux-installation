@@ -17,7 +17,7 @@ sudo apt-get clean
 sudo apt-get autoclean
 
 // Install apps:
-sudo apt install zip oathtool redshift pdfarranger vlc build-essential cmake unzip pkg-config ca-certificates keepassxc iptables-persistent feh vim catfish rofi inkscape okular autotools-dev automake make git git-lfs gitk git-gui audacious shutter simplescreenrecorder nemo dolphin kde-cli-tools gnome-terminal ark texstudio xournalpp xournal kde-plasma-desktop xclip yt-dlp curl kate calibre htop adb colordiff xserver-xorg-input-synaptics xbacklight easytag kid3 gparted qutebrowser gedit pulseaudio pavucontrol gnote elementary-icon-theme
+sudo apt install zip oathtool redshift pdfarranger vlc build-essential cmake unzip pkg-config ca-certificates keepassxc iptables-persistent feh vim catfish rofi inkscape okular autotools-dev automake make git git-lfs gitk git-gui audacious shutter simplescreenrecorder nemo dolphin kde-cli-tools gnome-terminal ark texstudio xournalpp xournal kde-plasma-desktop xclip yt-dlp curl kate calibre htop adb colordiff xserver-xorg-input-synaptics xbacklight easytag kid3 gparted qutebrowser gedit pulseaudio pavucontrol gnote elementary-icon-theme sqlitebrowser
 
 sudo apt install greybird-gtk-theme elementary-xfce-icon-theme
 
