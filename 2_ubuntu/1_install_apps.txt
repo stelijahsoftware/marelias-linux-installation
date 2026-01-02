@@ -23,6 +23,8 @@ sudo apt install greybird-gtk-theme elementary-xfce-icon-theme
 
 sudo apt-get install texlive-full texlive-lang-all
 
+# Development:
+sudo apt install libgtkmm-3.0-dev
 sudo apt install libc++-dev libc++abi-dev # required for building using clang
 
 # picom is outdated in apt; download zip and install instead from: (v. 12.5 working on 24.04)
